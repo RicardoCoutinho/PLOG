@@ -11,7 +11,7 @@ This game was developed for the logic programming class of PLOG in the Faculty o
 ##### Run
  - compile
  - consult
- - ```sh
+```sh
 $ init.
 ```
 
