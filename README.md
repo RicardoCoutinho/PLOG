@@ -1,9 +1,20 @@
 # PLOG
+The following projects were developed for the logic programming class of PLOG in the Faculty of Engineering and University of Porto(FEUP). 
 
-#### Project 1
+The first project's purpose is to learn the basics of PROLOG while using a declarative paradigm.
+
+The second project's purpose is to learn and make use of PROLOG's logic contraint programming capability.
+
+## Collaborators
+
+Eduardo Fernandes and 
+Ricardo Coutinho.
+
+## License
+MIT
+
+## Project 1
 The Pushee Pieces board-game developed in PROLOG programming language and playable via terminal/console. 
-
-This game was developed for the logic programming class of PLOG in the Faculty of Engineering and University of Porto(FEUP).
 
 ##### Dependencies
 - SICStus 4.3.0
@@ -22,7 +33,15 @@ Created by Eric Daryl Stevenson
 
 Check out his kickstarter campaign at: https://www.kickstarter.com/projects/pocketvinyl/pushee-pieces-a-simple-and-deep-strategy-micro-gam
 
-License
-----
+## Project 2
+The Star Battle board-game level generator developed in PROLOG programming language and usable via terminal/console. 
 
-MIT
+##### Dependencies
+- SICStus 4.3.0
+ 
+##### Run
+ - compile
+ - consult
+```sh
+$ ...
+```
