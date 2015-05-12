@@ -31,7 +31,7 @@ Created by Eric Daryl Stevenson
 > Pushee Pieces - A simple and deep strategy micro-game.
 > A small 5-10 minute microgame that's deceptively deep in strategy yet simple in design, all on a hand screen-printed canvas game board.
 
-Check out his kickstarter campaign [here]! 
+Check out his kickstarter campaign [here][2]! 
 
 ## Project 2
 The Star Battle board-game level generator developed in PROLOG programming language and usable via terminal/console. 
@@ -46,5 +46,5 @@ The Star Battle board-game level generator developed in PROLOG programming langu
 $ ...
 ```
 
-[1]:https://www.kickstarter.com/projects/pocketvinyl/pushee-pieces-a-simple-and-deep-strategy-micro-gam
-[2]:https://github.com/edlf
+[1]:https://github.com/edlf
+[2]:https://www.kickstarter.com/projects/pocketvinyl/pushee-pieces-a-simple-and-deep-strategy-micro-gam
