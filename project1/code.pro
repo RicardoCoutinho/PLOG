@@ -14,7 +14,7 @@
     flag_chain/1,
     flag_piece/1,
     flag_rotate/1,
-    flag_mode/1,       
+    flag_mode/1,
     player1/1,
     player2/1.
 
@@ -52,9 +52,9 @@ init :-
     assert(flag_piece(5)),
 
     retractall(flag_rotate(_)),
-    assert(flag_rotate(false)), 
+    assert(flag_rotate(false)),
 
-    retractall(flag_mode(_)), 
+    retractall(flag_mode(_)),
     assert(flag_mode(easy)),
 
     retractall(player1(_)),
@@ -65,11 +65,11 @@ init :-
 
     menu_init.
 
-start :- 
+start :-
     flag_size(X),
     flag_piece(N),
-    
-    build(X,X,MP,MV), 
+
+    build(X,X,MP,MV),
     print_board(MP,MV),
     play(N,MP,MV).
 
@@ -84,17 +84,17 @@ start :-
 % play(+NTurns,+MatrixPieces,+MatrixValues)
 play(N,MP,MV) :-
     N > 0, N1 is N-1,
-            
+
     turn(player1,MV,MP,MP2),  is_any_moves_left(MP2),
     turn(player2,MV,MP2,MP3), is_any_moves_left(MP3),
-    
+
     play(N1,MP3,MV).
 
 play(_,MP,MV) :- show_result(MP,MV).
 
 
 % turn(+Player,+MatrixValues,+Matrix,-Matrix2)
-turn(Player,MV,M,M4) :- % turn with computer playing        
+turn(Player,MV,M,M4) :- % turn with computer playing
     is_computer(Player),
     msg_name(computer),
     flag_mode(Mode),
@@ -102,30 +102,30 @@ turn(Player,MV,M,M4) :- % turn with computer playing
 
     flag_chain(N),
     chainreaction(N,M2,M3), msg_chain, print_board(M3,MV),
-    clear(M3,M4).   
+    clear(M3,M4).
 
 turn(Player,MV,M,M4) :-
-    placement(Player,M,M2), msg_place, print_board(M2,MV), 
-    
-    flag_chain(N), 
+    placement(Player,M,M2), msg_place, print_board(M2,MV),
+
+    flag_chain(N),
     chainreaction(N,M2,M3), msg_chain, print_board(M3,MV),
     clear(M3,M4).
 
 % placement(+Player,+Matrix,-MatrixOut)
-placement(Player,M,M2) :-  
+placement(Player,M,M2) :-
     Player = player1, player1(Name),
     msg_turn(Name),
     question(A),
     process_placement(Player,A,M,M2).
 
-placement(Player,M,M2) :-  
+placement(Player,M,M2) :-
     Player = player2, player2(Name),
     msg_turn(Name),
     question(A),
     process_placement(Player,A,M,M2).
-                                 
+
 placement(Player,M,M2) :- msg_erro2, placement(Player,M,M2).
- 
+
 
 % placement_computer(+Mode,+Player,+MatrixValues,+Matrix,-MatrixOut)
 placement_computer(easy,Player,_,M,M2) :-
@@ -133,20 +133,20 @@ placement_computer(easy,Player,_,M,M2) :-
     random(1,3,Oi), orientation_from_number(Oi,O),
     P = [Player,O,next],
     set(P,X,Y,M,M2).
-     
+
 placement_computer(normal,Player,_,M,M2) :-
     get_all(free,M,L), length(L,Max), Max1 is Max+1,
     random(1,Max1,I),  nth1(I,L,(X,Y)),
     random(1,3,Oi),    orientation_from_number(Oi,O),
     P = [Player,O,next],
-    set(P,X,Y,M,M2).                          
+    set(P,X,Y,M,M2).
 
-placement_computer(hard,Player,_,M,M2) :-        
+placement_computer(hard,Player,_,M,M2) :-
     get_all(free,M,L), length(L,Max), Max1 is Max+1,
     random(1,Max1,I),  nth1(I,L,(X,Y)),
     random(1,3,Oi),    orientation_from_number(Oi,O),
     P = [Player,O,next],
-    set(P,X,Y,M,M2).     
+    set(P,X,Y,M,M2).
 
 placement_computer(impossibru,Player,_,M,M2) :-
     get_all(player1,M,L), length(L,Max), Max1 is Max+1,
@@ -170,13 +170,13 @@ chainreaction(N,M,M3) :-
     chain_all(L,M,M2),
     chainreaction(N1,M2,M3).
 
-chainreaction(0,M,M). 
+chainreaction(0,M,M).
 
 chainreaction(_,M,M).
 
 
 % chain_all(+XYList,+Matrix,-MatrixNew)
-chain_all([XY|XYs],M,M3) :- 
+chain_all([XY|XYs],M,M3) :-
     chain(XY,M,M2),
     chain_all(XYs,M2,M3).
 
@@ -185,32 +185,32 @@ chain_all([],M,M).
 
 % chain(+XYTuple,+Matrix,-MatrixNew)
 chain((X,Y),M,M2) :- % chain horizontal
-    P = [Player,horizontal,next],  
+    P = [Player,horizontal,next],
     P2 =[Player,horizontal,used],
-            
+
     append(Ma,[L|Mz],M),    length(Ma,Y1), Y1 is Y-1,
     append(La,[P|Lz],L),    length(La,X1), X1 is X-1,
     append(Ma,[L2|Mz],M2),
     append(La2,[P2|Lz2],L2),
-    
+
     reverse(La,RevLa),
     reverse(RevLa2,La2),
-    
+
     push(RevLa,RevLa,[],RevLa2),
-    push(Lz,Lz,[],Lz2).  
+    push(Lz,Lz,[],Lz2).
 
 chain((X,Y),M,M2) :- % chain vertical
-    P = [Player,vertical,next],  
+    P = [Player,vertical,next],
     P2 =[Player,vertical,used],
-            
+
     append(Ma,[L|Mz],MI),   length(Ma,Y1),     Y1 is X-1, transpose(M,MI),
     append(La,[P|Lz],L),    length(La,X1),     X1 is Y-1,
     append(Ma,[L2|Mz],MI2), transpose(MI2,M2),
     append(La2,[P2|Lz2],L2),
-    
+
     reverse(La,RevLa),
     reverse(RevLa2,La2),
-    
+
     push(RevLa,RevLa,[],RevLa2),
     push(Lz,Lz,[],Lz2).
 
@@ -231,13 +231,13 @@ push(L,[[_,_,next]|_],_,L).
 push(_,[[empty,empty,free]|T],Pushed,L2) :- reverse(Pushed,RevPushed), append([[empty,empty,free]|RevPushed],T,L2).
 
 push(L,[[P,O,_]|T],Pushed,L2) :- push(L,T,[[P,O,next]|Pushed],L2).
-  
-             
+
+
 % show_result(+MatrixPieces,+MatrixValues)
-show_result(MP,MV) :- 
+show_result(MP,MV) :-
     msg_sep,
-    print_board(MP,MV),        
-    get_score(MP,MV,0,0,Score1,Score2), nl,        
+    print_board(MP,MV),
+    get_score(MP,MV,0,0,Score1,Score2), nl,
     msg_winner,
     write('                  '), player1(X), write(X), write(': '), write(Score1), write(' pontos'), nl,
     write('                  '), player2(Y), write(Y), write(': '), write(Score2), write(' pontos'), nl,
@@ -254,31 +254,31 @@ get_score([],[],P1Score,P2Score,P1Score,P2Score).
 
 
 % get_score_list(+ListPieces, +ListValues,+P1Counter,+P2Counter,-P1Score,-P2Score)
-get_score_list([[player1,_,_]|T],[V|Vs],P1Incr,P2Incr,P1Score,P2Score) :- 
+get_score_list([[player1,_,_]|T],[V|Vs],P1Incr,P2Incr,P1Score,P2Score) :-
     P1Incr2 is P1Incr+V,
     get_score_list(T,Vs,P1Incr2,P2Incr,P1Score,P2Score).
 
-get_score_list([[player2,_,_]|T],[V|Vs],P1Incr,P2Incr,P1Score,P2Score) :- 
+get_score_list([[player2,_,_]|T],[V|Vs],P1Incr,P2Incr,P1Score,P2Score) :-
     P2Incr2 is P2Incr+V,
     get_score_list(T,Vs,P1Incr,P2Incr2,P1Score,P2Score).
 
 get_score_list([[empty,_,_]|T],[_|Vs],P1Incr,P2Incr,P1Score,P2Score) :- get_score_list(T,Vs,P1Incr,P2Incr,P1Score,P2Score).
 
-get_score_list([],[],P1Score,P2Score,P1Score,P2Score).   
+get_score_list([],[],P1Score,P2Score,P1Score,P2Score).
 
 
 % show_winner(+Score1,+Score2)
-show_winner(Score1,Score2) :- 
-    Score1 > Score2,        
+show_winner(Score1,Score2) :-
+    Score1 > Score2,
     write('               O vencedor:  '), player1(A), write(A),  nl,nl,nl,nl.
-   
-show_winner(Score1,Score2) :- 
+
+show_winner(Score1,Score2) :-
     Score1 < Score2,
     write('               O vencedor:  '), player2(A), write(A),  nl,nl,nl,nl.
 
-show_winner(Score1,Score2) :- 
+show_winner(Score1,Score2) :-
     Score1 =:= Score2,
-    write('               Empate !!!'),  nl,nl,nl,nl.         
+    write('               Empate !!!'),  nl,nl,nl,nl.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -292,7 +292,7 @@ menu_init :-
     question(A),
     process_init(A).
 
-menu_main :- 
+menu_main :-
     msg_main,
     question(A),
     process_main(A).
@@ -301,7 +301,7 @@ menu_mode :-
     msg_mode,
     question(A),
     process_mode(A).
-        
+
 menu_config :-
     msg_config,
     question(A),
@@ -334,11 +334,11 @@ process_init(_) :- menu_main.
 % process_main(+Input)
 process_main([48|_]).
 
-process_main([49|_]) :- player1(X), player2(Y), retract(player1(X)), retract(player2(Y)), assert(player1(jogador1)),    assert(player2(jogador2)),    start.      
+process_main([49|_]) :- player1(X), player2(Y), retract(player1(X)), retract(player2(Y)), assert(player1(jogador1)),    assert(player2(jogador2)),    start.
 
-process_main([50|_]) :- player1(X), player2(Y), retract(player1(X)), retract(player2(Y)), assert(player1(jogador)),     assert(player2(computador)),  menu_mode.      
+process_main([50|_]) :- player1(X), player2(Y), retract(player1(X)), retract(player2(Y)), assert(player1(jogador)),     assert(player2(computador)),  menu_mode.
 
-process_main([51|_]) :- player1(X), player2(Y), retract(player1(X)), retract(player2(Y)), assert(player1(computador1)), assert(player2(computador2)), menu_mode.      
+process_main([51|_]) :- player1(X), player2(Y), retract(player1(X)), retract(player2(Y)), assert(player1(computador1)), assert(player2(computador2)), menu_mode.
 
 process_main([52|_]) :- msg_regras, question(_), menu_main.
 
@@ -379,8 +379,8 @@ process_config([52|_]) :- menu_config_4.
 process_config([53|_]) :- menu_config_5.
 
 process_config(_)      :- msg_erro, menu_config.
-      
-     
+
+
 % process_config_1(+Input)
 process_config_1([48|_]) :- menu_config.
 
@@ -407,7 +407,7 @@ process_config_4([99|_]) :- flag_piece(X), retract(flag_piece(X)), assert(flag_p
 process_config_4([100|_]):- flag_piece(X), retract(flag_piece(X)), assert(flag_piece(35)), menu_config.
 
 process_config_4(_)      :- msg_erro, menu_config_4.
-    
+
 
 % process_config_5(+Input)
 process_config_5([48|_]) :- menu_config.
@@ -438,9 +438,9 @@ msg_init :-
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
     nl,nl,nl,
-    write('    Desenvolvido por: '), nl, 
+    write('    Desenvolvido por: '), nl,
     write('         ei12130 - Eduardo Fernandes'), nl,
-    write('         ei12161 - José Ricardo Coutinho'), nl,
+    write('         ei12161 - Josï¿½ Ricardo Coutinho'), nl,
     nl,
     write('    No ambito de: '), nl,
     write('         Programacao em Logica'), nl,
@@ -460,7 +460,7 @@ msg_main :-
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
     nl,nl,nl,
-    write('                 1 ) Jogador     VS  Jogador'), nl, 
+    write('                 1 ) Jogador     VS  Jogador'), nl,
     write('                 2 ) Jogador     VS  Computador'), nl,
     write('                 3 ) Computador  VS  Computador'), nl,
     nl,
@@ -483,7 +483,7 @@ msg_mode :-
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
     nl,nl,nl,
-    write('                 1 ) Easy'), nl, 
+    write('                 1 ) Easy'), nl,
     write('                 2 ) Normal'), nl,
     write('                 3 ) Hard'), nl,
     write('                 4 ) Impossibru'), nl,
@@ -505,7 +505,7 @@ msg_config :-
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
     nl,nl,nl,
-    write('                 1 ) Tamanho do tabuleiro : '), flag_size(A),   write(A), write('x'),write(A), nl, 
+    write('                 1 ) Tamanho do tabuleiro : '), flag_size(A),   write(A), write('x'),write(A), nl,
     write('                 2 ) Colisao com parede   : '), flag_wall(B),   write(B), nl,
     write('                 3 ) Rotacao de pecas     : '), flag_rotate(C), write(C), nl,
     write('                 4 ) Numero de pecas      : '), flag_piece(D),  write(D), nl,
@@ -528,7 +528,7 @@ msg_config_1 :-
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
     nl,nl,nl,
-    write('                 1 ) Tamanho do tabuleiro : '), flag_size(A), write(A),write('x'),write(A),  nl, 
+    write('                 1 ) Tamanho do tabuleiro : '), flag_size(A), write(A),write('x'),write(A),  nl,
     write('                     a ) 6x6 '), nl,
     write('                     b ) 7x7 '), nl,
     write('                     c ) 8x8 '), nl,
@@ -551,7 +551,7 @@ msg_config_4 :-
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
     nl,nl,nl,
-    write('                 4 ) Numero de pecas : '), flag_piece(D), write(D),  nl, 
+    write('                 4 ) Numero de pecas : '), flag_piece(D), write(D),  nl,
     write('                     a )  5 '), nl,
     write('                     b ) 15 '), nl,
     write('                     c ) 20 '), nl,
@@ -574,7 +574,7 @@ msg_config_5 :-
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
     nl,nl,nl,
-    write('                 5 ) Numero de cadeias : '), flag_chain(E), msg_config_5_aux(E),  nl, 
+    write('                 5 ) Numero de cadeias : '), flag_chain(E), msg_config_5_aux(E),  nl,
     write('                     a ) 0 '), nl,
     write('                     b ) 3 '), nl,
     write('                     c ) 6 '), nl,
@@ -599,13 +599,13 @@ msg_config_5_aux(X) :-
 
 msg_regras :- nl,nl,nl,
     write(' REGRAS: '),nl,nl,
-    write(' - O objectivo do jogo é obter mais pontos que o outro jogador.'),nl,
-    write(' - A pontuação de cada jogador é contabilizada no final e é igual'),nl,
-    write('   à soma do valores das quadriculas em que as peças desse jogador'),nl,
+    write(' - O objectivo do jogo ï¿½ obter mais pontos que o outro jogador.'),nl,
+    write(' - A pontuaï¿½ï¿½o de cada jogador ï¿½ contabilizada no final e ï¿½ igual'),nl,
+    write('   ï¿½ soma do valores das quadriculas em que as peï¿½as desse jogador'),nl,
     write('   se encontram.'),nl,
-    write(' - As peças só podem ser colocadas na vertical ou horizontal.'), nl,
-    write(' - As peças podem empurrar na direção dos seus extremos.'),nl,nl,
-    write(' As restantes regras são aprendidas jogando. Boa sorte!'),nl,nl,nl,nl,
+    write(' - As peï¿½as sï¿½ podem ser colocadas na vertical ou horizontal.'), nl,
+    write(' - As peï¿½as podem empurrar na direï¿½ï¿½o dos seus extremos.'),nl,nl,
+    write(' As restantes regras sï¿½o aprendidas jogando. Boa sorte!'),nl,nl,nl,nl,
     write('   PRESSIONE QUALQUER TECLA PARA SAIR'),nl,nl.
 
 
@@ -616,13 +616,13 @@ msg_erro2 :-
     nl, write(' JOGADA INVALIDA, tente outra vez.'), nl, nl.
 
 
-msg_turn(Name) :- 
+msg_turn(Name) :-
     nl, nl ,write('%%%%%%%%%%%%%%%%%%%%%%%%%%%[ '),write(Name) , write(' ]%%%%%%%%%%%%%%%%%%%%%%%%%%% '),nl, nl,
     write('   Tipos de Orientacao :: (v)ertical (h)orizontal'), nl, nl,
     write('   Introduza as suas opcoes no seguinte formato :: orientacao coordenada_X coordenada_Y'),nl,nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'),nl.
 
-msg_name(Name) :- 
+msg_name(Name) :-
     nl, nl , nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'),nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%[ '),write(Name) , write(' ]%%%%%%%%%%%%%%%%%%%%%%%%%%% '),nl,
@@ -635,7 +635,7 @@ msg_winner :-
     write('%%%%%%%%%%                   Resultado                  %%%%%%%%%%'), nl,
     write('%%%%%%%%%%                                              %%%%%%%%%%'), nl,
     write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
-    nl,nl,nl. 
+    nl,nl,nl.
 
 msg_sep :-
     nl,nl,
@@ -665,14 +665,14 @@ build(W,H,MatrixPieces,MatrixValues) :-
 build_board(W,H,Pred,M) :-
     H > 0,
     length(M,H),
-    maplist(build_line(W,Pred),M).        
+    maplist(build_line(W,Pred),M).
 
 
 % build_line(+Width,-List)
 build_line(W,Pred,L) :-
     W > 0,
     length(L,W),
-    maplist(Pred,L). 
+    maplist(Pred,L).
 
 
 % build_element(?Element)
@@ -687,25 +687,25 @@ build_value(V) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%                                              %%%%%%%%%%
-%%%%%%%%%%          VISUALIZAÇAO DO TABULEIRO           %%%%%%%%%%
+%%%%%%%%%%          VISUALIZAï¿½AO DO TABULEIRO           %%%%%%%%%%
 %%%%%%%%%%                                              %%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % print_board(+MatrixPieces,+MatrixValues)
 print_board(MP,MV) :- nl,
     head(MP,L), length(L,Width),
-    write('   '), print_guide(1,Width),nl,                            
+    write('   '), print_guide(1,Width),nl,
                   print_rows(1,Width,MP,MV),
     write('   '), print_border(Width), nl.
 
 
 % print_guide(+StartingNumber,+Width)
-print_guide(N0,N) :- 
+print_guide(N0,N) :-
     N0 > 0, N0 =< N, N1 is N0+1,
     write('    '), write(N0), write('   '),
     print_guide(N1,N).
 print_guide(N0,N) :- N0 > N.
-    
+
 
 % print_rows(+StartingNumber,+Width,+MatrixPieces,+MatrixValues)
 print_rows(N,W,[H|T],[H2|T2]) :-
@@ -713,10 +713,10 @@ print_rows(N,W,[H|T],[H2|T2]) :-
                   print_row(N,H,H2),
     N1 is N+1,    print_rows(N1,W,T,T2).
 print_rows(_,_,[],[]).
-    
+
 
 % print_border(+Width)
-print_border(N) :- 
+print_border(N) :-
     N > 0, N1 is N-1,
     write('+-------'),
     print_border(N1).
@@ -749,7 +749,7 @@ print_cell(2,[player1,vertical|_],_)   :- write('|   X   ').
 print_cell(2,[player2,vertical|_],_)   :- write('|   O   ').
 print_cell(2,[player1,horizontal|_],_) :- write('| XXXXX ').
 print_cell(2,[player2,horizontal|_],_) :- write('| OOOOO ').
-        
+
 print_cell(3,[empty,_|_],V)            :- write('|      '), print_value(V).
 print_cell(3,[player1,vertical|_],V)   :- write('|   X  '), print_value(V).
 print_cell(3,[player2,vertical|_],V)   :- write('|   O  '), print_value(V).
@@ -783,7 +783,7 @@ is_empty_list([]).
 
 
 % is_inside(+X,+Y,+Matrix)
-is_inside(X,Y,M) :- 
+is_inside(X,Y,M) :-
     size(M,LX,LY),
     X > 0, X =< LX,
     Y > 0, Y =< LY.
@@ -796,17 +796,17 @@ is_empty(X,Y,M) :-
 % is_number(+Code)
 is_number(Code) :-
     Code >= 48 ,
-    Code =< 57.  
+    Code =< 57.
 
 % is_any_moves_left(+Matrix)
 is_any_moves_left(M) :-
     get_all(empty,M,L),
     \+ is_empty_list(L).
-        
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%                                              %%%%%%%%%%
-%%%%%%%%%%                  OPERACO•ES                   %%%%%%%%%%
+%%%%%%%%%%                  OPERACOï¿½ES                   %%%%%%%%%%
 %%%%%%%%%%                                              %%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -815,8 +815,8 @@ size(M,X,Y) :-
     length(M,Y),
     head(M,H),
     length(H,X).
-  
-      
+
+
 % get(+X,+Y,+Matrix,-Piece)
 get(X,Y,M,P) :-
     is_inside(X,Y,M),
@@ -831,9 +831,9 @@ get_all(Status,M,L) :-
 
 get_all(_,_,[]).
 
-   
+
 % get_all_except(+Status,+Matrix,-List)
-get_all_except(Status,M,L) :- 
+get_all_except(Status,M,L) :-
     setof( (X,Y) , ( nth1(Y,M,Row), nth1(X,Row,P), \+ member(Status,P))  , L).
 
 get_all_except(_,_,[]).
@@ -855,10 +855,10 @@ empty(X,Y,M,M2) :- P = [empty,empty,free], set(P,X,Y,M,M2).
 % move(+Xa,+Ya,+Xb,+Yb,+Matrix,-Matrix2)
 move(Xa,Ya,Xb,Yb,M,M2) :-
     is_empty(Xb,Yb,M),
-    get(Xa,Ya,M,P), 
+    get(Xa,Ya,M,P),
     empty(Xa,Ya,M,Maux),
     set(P,Xb,Yb,Maux,M2).
-        
+
 
 % clear(+Matrix,-Matrix2)
 clear(M,M2) :- maplist(maplist(clear_turn),M,M2).
@@ -883,4 +883,3 @@ orientation_from_code(118,vertical).
 orientation_from_number(1,vertical).
 
 orientation_from_number(2,horizontal).
-
