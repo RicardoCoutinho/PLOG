@@ -33,6 +33,10 @@ Created by Eric Daryl Stevenson
 
 Check out his kickstarter campaign [here][2]! 
 
+##### Screenshots
+
+![](https://github.com/github/training-kit/blob/master/images/professortocat.png)
+
 ## Project 2
 The Star Battle board-game level generator developed in PROLOG programming language and usable via terminal/console. 
 
