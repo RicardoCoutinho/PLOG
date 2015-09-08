@@ -46,6 +46,8 @@ Check out his kickstarter campaign [here][2]!
 ## Project 2
 The Star Battle board-game level generator developed in PROLOG programming language and usable via terminal/console. 
 
+![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project2/project.png)
+
 ##### Dependencies
 - SICStus 4.3.0
  
