@@ -35,7 +35,12 @@ Check out his kickstarter campaign [here][2]!
 
 ##### Screenshots
 
-![alt tag](https://RicardoCoutinho.github.com/RicardoCoutinho/PLOG/tree/master/project1/screenshots/1.png)
+![](https://dl.dropboxusercontent.com/u/13808975/plog/p1/1.png)
+![](https://dl.dropboxusercontent.com/u/13808975/plog/p1/2.png)
+![](https://dl.dropboxusercontent.com/u/13808975/plog/p1/3.png)
+![](https://dl.dropboxusercontent.com/u/13808975/plog/p1/4.png)
+![](https://dl.dropboxusercontent.com/u/13808975/plog/p1/5.png)
+![](https://dl.dropboxusercontent.com/u/13808975/plog/p1/6.png)
 
 ## Project 2
 The Star Battle board-game level generator developed in PROLOG programming language and usable via terminal/console. 
