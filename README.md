@@ -35,9 +35,9 @@ Check out his kickstarter campaign [here][2]!
 
 ##### Screenshots
 
-![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project1/screenshots/1.png)
-![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project1/screenshots/2.png)
-![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project1/screenshots/3.png)
-![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project1/screenshots/4.png)
-![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project1/screenshots/5.png)
-![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project1/screenshots/6.png)
+![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/1.png)
+![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/2.png)
+![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/3.png)
+![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/4.png)
+![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/5.png)
+![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/6.png)
