@@ -1,9 +1,7 @@
-# PLOG
-The following projects were developed for the logic programming class of PLOG in the Faculty of Engineering and University of Porto(FEUP). 
+# Pushee Pieces
+The following project was developed for the logic programming class of PLOG in the Faculty of Engineering and University of Porto(FEUP). 
 
-The first project's purpose is to learn the basics of PROLOG while using a declarative paradigm.
-
-The second project's purpose is to learn and make use of PROLOG's logic contraint programming capability.
+The project's purpose is to learn the basics of PROLOG while using a declarative paradigm.
 
 ## Collaborators
 
@@ -43,7 +41,11 @@ Check out his kickstarter campaign [here][2]!
 ![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project1/screenshots/6.png)
 
 
-## Project 2
+# Star Battle
+The following project was developed for the logic programming class of PLOG in the Faculty of Engineering and University of Porto(FEUP). 
+
+The project's purpose is to learn and make use of PROLOG's logic contraint programming capability.
+
 The Star Battle board-game level generator developed in PROLOG programming language and usable via terminal/console. 
 
 ![](https://raw.githubusercontent.com/RicardoCoutinho/PLOG/master/project2/project.png)
