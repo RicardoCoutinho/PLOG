@@ -41,3 +41,6 @@ Check out his kickstarter campaign [here][2]!
 ![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/4.png)
 ![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/5.png)
 ![](https://raw.githubusercontent.com/RicardoCoutinho/Pushee-Pieces/master/screenshots/6.png)
+
+[1]:https://github.com/edlf
+[2]:https://www.kickstarter.com/projects/pocketvinyl/pushee-pieces-a-simple-and-deep-strategy-micro-gam
