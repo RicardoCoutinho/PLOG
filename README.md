@@ -3,7 +3,7 @@ The following project was developed for the logic programming class of PLOG in t
 
 The project's purpose is to learn the basics of PROLOG while using a declarative paradigm.
 
-It's a game developed in PROLOG programming language and playable via terminal/console.
+Basically, it's a game developed in PROLOG programming language and playable via terminal/console.
 
 ## Collaborators
 
